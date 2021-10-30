@@ -1,0 +1,16 @@
+.image-loginadmin {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.brgy-admin {
+  color: white;
+  font-family: inherit;
+  font-weight: 500;
+  line-height: 1.1;
+  font-size: 1.5rem;
+  margin-top: 5px;
+}
+.brgy-admin:hover {
+  text-decoration: none;
+}
