@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.0
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 29, 2021 at 10:16 AM
--- Server version: 10.4.18-MariaDB
--- PHP Version: 8.0.3
+-- Generation Time: Oct 31, 2021 at 03:45 PM
+-- Server version: 10.4.21-MariaDB
+-- PHP Version: 8.0.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -41,7 +41,7 @@ CREATE TABLE `admins` (
 INSERT INTO `admins` (`id`, `username`, `password`, `barangay`) VALUES
 (1, 'admin_acacia', 'admin1111', 'acacia'),
 (2, 'admin_baritan', 'admin1111', 'baritan'),
-(3, 'admin_bayanbayanan', 'admin1111', 'bayanbayanan'),
+(3, 'admin_bayanbayanan', 'admin1111', 'bayan-bayanan'),
 (4, 'admin_catmon', 'admin1111', 'catmon'),
 (5, 'admin_concepcion', 'admin1111', 'concepcion'),
 (6, 'admin_dampalit', 'admin1111', 'dampalit'),
@@ -59,7 +59,8 @@ INSERT INTO `admins` (`id`, `username`, `password`, `barangay`) VALUES
 (18, 'admin_tanong', 'admin1111', 'tanong'),
 (19, 'admin_tinajeros', 'admin1111', 'tinajeros'),
 (20, 'admin_tonsuya', 'admin1111', 'tonsuya'),
-(21, 'admin_tugatog', 'admin1111', 'tugatog');
+(21, 'admin_tugatog', 'admin1111', 'tugatog'),
+(22, 'admin_LGU', 'admin1234', 'malabon');
 
 -- --------------------------------------------------------
 
@@ -106,33 +107,37 @@ INSERT INTO `barangay` (`id`, `barangay_name`) VALUES
 --
 
 CREATE TABLE `certification_table` (
+  `id` int(11) NOT NULL,
   `first_name` varchar(255) NOT NULL,
   `middle_name` varchar(255) NOT NULL,
   `last_name` varchar(255) NOT NULL,
-  `date` int(255) NOT NULL,
-  `age` int(255) NOT NULL,
+  `date` date NOT NULL,
+  `age` int(11) NOT NULL,
   `gender` varchar(255) NOT NULL,
-  `address` varchar(255) NOT NULL,
-  `birthday` int(255) NOT NULL,
-  `birthplace` varchar(255) NOT NULL,
-  `contact_number` int(255) NOT NULL,
+  `address` varchar(500) NOT NULL,
+  `birthday` date NOT NULL,
+  `birthplace` varchar(500) NOT NULL,
+  `contact_number` bigint(20) NOT NULL,
   `status` varchar(255) NOT NULL,
   `spouse` varchar(255) NOT NULL,
-  `spouse_age` int(255) NOT NULL,
+  `spouse_age` varchar(255) NOT NULL,
   `year_stay` varchar(255) NOT NULL,
   `voter` varchar(255) NOT NULL,
-  `voters_number` varchar(255) NOT NULL,
-  `house` varchar(255) NOT NULL,
-  `occupation` varchar(255) NOT NULL,
-  `name_company` varchar(255) NOT NULL
+  `voter_number` varchar(255) NOT NULL,
+  `house` varchar(500) NOT NULL,
+  `occupation` varchar(500) NOT NULL,
+  `companyname` varchar(500) NOT NULL,
+  `purpose` varchar(255) NOT NULL,
+  `barangay` varchar(255) NOT NULL,
+  `print` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `certification_table`
 --
 
-INSERT INTO `certification_table` (`first_name`, `middle_name`, `last_name`, `date`, `age`, `gender`, `address`, `birthday`, `birthplace`, `contact_number`, `status`, `spouse`, `spouse_age`, `year_stay`, `voter`, `voters_number`, `house`, `occupation`, `name_company`) VALUES
-('hahahaha', 'ahahahaha', 'hahahaha', 12, 12, 'Male', 'yvkyubuk', 2021, 'hahahah', 56789, 'Single', 'hahaha', 12, 'hahaha', 'Yes', 'hahaha', 'Owner', 'hahaha', 'ahahaha');
+INSERT INTO `certification_table` (`id`, `first_name`, `middle_name`, `last_name`, `date`, `age`, `gender`, `address`, `birthday`, `birthplace`, `contact_number`, `status`, `spouse`, `spouse_age`, `year_stay`, `voter`, `voter_number`, `house`, `occupation`, `companyname`, `purpose`, `barangay`, `print`) VALUES
+(2, 'gjh', 'sdasd', 'asdasdas', '2021-10-31', 22, 'Male', '2asdas', '2021-10-13', 'dasdas', 23123, 'Single', 'asdas', '22', 'asdassa', 'Yes', '2312asd', 'Owner', 'adassd', 'asdas ', 'Death Claim', 'baritan', 'printed');
 
 -- --------------------------------------------------------
 
@@ -141,36 +146,39 @@ INSERT INTO `certification_table` (`first_name`, `middle_name`, `last_name`, `da
 --
 
 CREATE TABLE `clearance_table` (
+  `id` int(11) NOT NULL,
   `first_name` varchar(255) NOT NULL,
   `middle_name` varchar(255) NOT NULL,
   `last_name` varchar(255) NOT NULL,
-  `date` int(255) NOT NULL,
-  `age` int(255) NOT NULL,
+  `date` date NOT NULL,
+  `age` int(11) NOT NULL,
   `gender` varchar(255) NOT NULL,
-  `address` varchar(255) NOT NULL,
-  `birthday` int(255) NOT NULL,
-  `birthplace` varchar(255) NOT NULL,
-  `contact_number` int(255) NOT NULL,
+  `address` varchar(500) NOT NULL,
+  `birthday` date NOT NULL,
+  `birthplace` varchar(500) NOT NULL,
+  `contact_number` bigint(12) NOT NULL,
   `status` varchar(255) NOT NULL,
   `spouse` varchar(255) NOT NULL,
-  `spouse_age` int(255) NOT NULL,
+  `spouse_age` varchar(255) NOT NULL,
   `year_stay` varchar(255) NOT NULL,
   `voter` varchar(255) NOT NULL,
-  `voters_number` varchar(255) NOT NULL,
-  `house` varchar(255) NOT NULL,
-  `occupation` varchar(255) NOT NULL,
-  `name_company` varchar(255) NOT NULL,
-  `id` int(255) NOT NULL
+  `voter_number` varchar(255) NOT NULL,
+  `house` varchar(500) NOT NULL,
+  `occupation` varchar(500) NOT NULL,
+  `companyname` varchar(500) NOT NULL,
+  `purpose` varchar(255) NOT NULL,
+  `barangay` varchar(255) NOT NULL,
+  `print` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `clearance_table`
 --
 
-INSERT INTO `clearance_table` (`first_name`, `middle_name`, `last_name`, `date`, `age`, `gender`, `address`, `birthday`, `birthplace`, `contact_number`, `status`, `spouse`, `spouse_age`, `year_stay`, `voter`, `voters_number`, `house`, `occupation`, `name_company`, `id`) VALUES
-('vkubiub', 'ibibhuj', 'buvbu', 23, 23, 'Male', 'uyvbubu', 2021, 'kibib', 34, 'Single', 'vukyvy', 345, 'vghk', 'Yes', 'sample11', 'Owner', 'ugbvu', 'buhj ', 1),
-('vkubiub', 'ibibhuj', 'buvbu', 23, 23, 'Male', 'uyvbubu', 2021, 'kibib', 34, 'Single', 'vukyvy', 345, 'vghk', 'Yes', 'hgv gg', 'Owner', 'ugbvu', 'buhj ', 2),
-('ghiogiuyguujn', 'hniuyg', 'biuygunjvu', 45687, 2021, 'Male', 'ungugiu', 2021, 'jkgngi', 345678, 'Single', 'viybuyb', 4567, 'ugbkujb', 'Yes', 'tvbuyb', 'Owner', 'ugtvbybu', 'uybunm', 3);
+INSERT INTO `clearance_table` (`id`, `first_name`, `middle_name`, `last_name`, `date`, `age`, `gender`, `address`, `birthday`, `birthplace`, `contact_number`, `status`, `spouse`, `spouse_age`, `year_stay`, `voter`, `voter_number`, `house`, `occupation`, `companyname`, `purpose`, `barangay`, `print`) VALUES
+(5, 'asdsadasdsadasdsadas dsadasdasdsadsa', 'asdas', 'asdsa', '2021-10-31', 2, 'Male', 'asdas', '2021-10-21', 'asdas', 23123, 'Single', 'asdassadas', '22', 'asdsadas', 'Yes', 'asdaa2321', 'Owner', 'adasd', 'adssa', 'Bank Transaction', 'baritan', 'printed'),
+(6, 'qwewq', 'asdas', 'asdasd', '2021-10-31', 22, 'Male', 'asdas', '2021-10-07', 'asdasd', 213213, 'Single', 'asdas', '22', 'dasdas', 'Yes', 'asdasd222', 'Owner', 'asdsa', 'asdasdas', 'Motor Loan Pupose', 'baritan', 'pending'),
+(7, 'qweasdas', 'asdasd', 'asdasdas', '2021-10-31', 22, 'Male', 'asdas', '2021-10-07', 'asdasd', 21312, 'Single', 'asdasda', '40', 'asdasd', 'Yes', '23213', 'Owner', 'asdas', 'dasdas', 'Pedicab/Tricycle Registration', 'acacia', 'pending');
 
 -- --------------------------------------------------------
 
@@ -179,26 +187,31 @@ INSERT INTO `clearance_table` (`first_name`, `middle_name`, `last_name`, `date`,
 --
 
 CREATE TABLE `permit_table` (
+  `id` int(11) NOT NULL,
   `first_name` varchar(255) NOT NULL,
   `middle_name` varchar(255) NOT NULL,
   `last_name` varchar(255) NOT NULL,
-  `date` int(255) NOT NULL,
-  `address` varchar(255) NOT NULL,
-  `contact_number` int(255) NOT NULL,
-  `amount` int(255) NOT NULL,
-  `number_storey` int(255) NOT NULL,
-  `name_building_business` varchar(255) NOT NULL,
-  `sunken_amount` int(255) NOT NULL,
-  `square_meters` varchar(255) NOT NULL,
-  `location` varchar(255) NOT NULL
+  `date` date NOT NULL,
+  `address` varchar(500) NOT NULL,
+  `contact_number` bigint(20) NOT NULL,
+  `amount` bigint(20) NOT NULL,
+  `storey_number` bigint(20) NOT NULL,
+  `business_name` varchar(500) NOT NULL,
+  `amount2` bigint(20) NOT NULL,
+  `square_meters` varchar(500) NOT NULL,
+  `location` varchar(500) NOT NULL,
+  `purpose` varchar(500) NOT NULL,
+  `barangay` varchar(500) NOT NULL,
+  `print` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `permit_table`
 --
 
-INSERT INTO `permit_table` (`first_name`, `middle_name`, `last_name`, `date`, `address`, `contact_number`, `amount`, `number_storey`, `name_building_business`, `sunken_amount`, `square_meters`, `location`) VALUES
-('hzhahahah', 'hshahah', 'hahahaha', 2021, 'haahhaha', 56789, 678, 678, 'hahahaha', 678, ' hahahah', '7689');
+INSERT INTO `permit_table` (`id`, `first_name`, `middle_name`, `last_name`, `date`, `address`, `contact_number`, `amount`, `storey_number`, `business_name`, `amount2`, `square_meters`, `location`, `purpose`, `barangay`, `print`) VALUES
+(3, ' dasdas', 'asdas', 'asdas', '2021-10-31', 'asdas', 23121, 2111, 1221, 'asdasasda', 1111, 'asdas', 'asdas', 'Excavation Permit', 'baritan', 'pending'),
+(4, ' asd', 'asd', 'asd', '2021-10-31', '2312312', 2312, 111, 11, 'asdsadsa', 1111, '11321', 'asdasdsa', 'Business Permit', 'baritan', 'pending');
 
 -- --------------------------------------------------------
 
@@ -258,21 +271,26 @@ INSERT INTO `purpose_table` (`id`, `purpose_name`) VALUES
 --
 
 CREATE TABLE `travelpermit_table` (
+  `id` int(11) NOT NULL,
   `first_name` varchar(255) NOT NULL,
   `middle_name` varchar(255) NOT NULL,
   `last_name` varchar(255) NOT NULL,
-  `age` int(255) NOT NULL,
-  `address` varchar(255) NOT NULL,
-  `location` varchar(255) NOT NULL,
-  `date` int(255) NOT NULL
+  `date` date NOT NULL,
+  `age` int(11) NOT NULL,
+  `address` varchar(500) NOT NULL,
+  `location` varchar(500) NOT NULL,
+  `purpose` varchar(255) NOT NULL,
+  `barangay` varchar(255) NOT NULL,
+  `print` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `travelpermit_table`
 --
 
-INSERT INTO `travelpermit_table` (`first_name`, `middle_name`, `last_name`, `age`, `address`, `location`, `date`) VALUES
-('buybgu', 'guigyui', 'uuyby', 4567, 'ytvbyvby', 'yvyvyuhj', 2021);
+INSERT INTO `travelpermit_table` (`id`, `first_name`, `middle_name`, `last_name`, `date`, `age`, `address`, `location`, `purpose`, `barangay`, `print`) VALUES
+(3, 'asdasd', 'asdas', 'asdas', '2021-10-31', 22, 'asdas', 'asdasd', 'Travel Permit', 'baritan', 'pending'),
+(4, 'asdasd', 'asdsa', 'asdsa', '2021-10-31', 22, 'adssa', 'asdas', 'Travel Permit', 'baritan', 'pending');
 
 -- --------------------------------------------------------
 
@@ -303,16 +321,20 @@ INSERT INTO `user_table` (`user_id`, `username`, `password`) VALUES
 
 CREATE TABLE `votersid_table` (
   `id` int(255) NOT NULL,
-  `voters_id` varchar(255) NOT NULL
+  `voters_id` varchar(255) NOT NULL,
+  `brgy` varchar(250) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `votersid_table`
 --
 
-INSERT INTO `votersid_table` (`id`, `voters_id`) VALUES
-(1, 'sample11'),
-(2, '123');
+INSERT INTO `votersid_table` (`id`, `voters_id`, `brgy`) VALUES
+(1, 'sample11', 'acacia'),
+(2, '123', 'baritan'),
+(3, '432', 'acacia'),
+(4, '567', 'bayan-bayanan'),
+(5, '2310293', 'baritan');
 
 --
 -- Indexes for dumped tables
@@ -331,15 +353,33 @@ ALTER TABLE `barangay`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `certification_table`
+--
+ALTER TABLE `certification_table`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `clearance_table`
 --
 ALTER TABLE `clearance_table`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `permit_table`
+--
+ALTER TABLE `permit_table`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `purpose_table`
 --
 ALTER TABLE `purpose_table`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `travelpermit_table`
+--
+ALTER TABLE `travelpermit_table`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -356,7 +396,7 @@ ALTER TABLE `votersid_table`
 -- AUTO_INCREMENT for table `admins`
 --
 ALTER TABLE `admins`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `barangay`
@@ -365,10 +405,22 @@ ALTER TABLE `barangay`
   MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
+-- AUTO_INCREMENT for table `certification_table`
+--
+ALTER TABLE `certification_table`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `clearance_table`
 --
 ALTER TABLE `clearance_table`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `permit_table`
+--
+ALTER TABLE `permit_table`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `purpose_table`
@@ -377,10 +429,16 @@ ALTER TABLE `purpose_table`
   MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
+-- AUTO_INCREMENT for table `travelpermit_table`
+--
+ALTER TABLE `travelpermit_table`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
 -- AUTO_INCREMENT for table `votersid_table`
 --
 ALTER TABLE `votersid_table`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
