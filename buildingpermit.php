@@ -1,46 +1,21 @@
 <?php 
 require('pdf/fpdf184/fpdf.php');
 session_start();
-$print_id =$_SESSION['print_id2'];
-$table = $_SESSION['table'];
-$wat;
-if($table == "buldingptb"){
-    $wat = "Building Permit";
-    }
-    if($table == "demolitionptb"){
-    $wat = "Demolition Permit";
-    }
-    if($table == "excavationptb"){
-    $wat = "Excavation Permit";
-    }
-    if($table == "fencingptb"){
-    $wat = "Fencing Permit";
-    }
-    if($table == "renovationptb"){
-    $wat = "Renovation Permit";
-    }
-    if($table == "sunkenptb"){
-    $wat = "Sunken Permit";
-    }
-    if($table == "wiringptb"){
-    $wat = "Wiring Permit";
-    }
-$brgy = $_SESSION['brgy'];
 require_once('database-config.php');
-$brgy = $_SESSION['brgy'];
-
-$result=mysqli_query($con,"select fname,mname,lname,address,date1,numberstorey,location from `$table` WHERE `votersid` = '$print_id'");
-$number_of_products = mysqli_num_rows($result);
-$column_code = "";
+$id = $_GET['id'];
+$link = $_GET['link'];
+$sql = "select * from permit_table where id = '$id'";
+$result = mysqli_query($con,$sql);
 while($row = mysqli_fetch_array($result)){
-    $fname = $row["fname"];
-    $mname = $row['mname'];
-    $lname = $row['lname'];
+    $firstname = $row['first_name'];
+    $middlename = $row['middle_name'];
+    $lastname = $row['last_name'];
+    $date = $row['date'];
     $address = $row['address'];
-    $date1 = $row['date1'];
-    $numberstorey = $row['numberstorey'];
+    $barangay = $row['barangay'];
+    $purpose = $row['purpose'];
+    $numberstorey = $row['storey_number'];
     $location = $row['location'];
-    
 }
 
 $pdf = new FPDF ('p','mm','A4');
@@ -56,7 +31,7 @@ $pdf->Cell(77 , 10 , '',0,0); // indention
 $pdf->Cell(130 , 1, 'CITY OF MALABON' , 0,1);
 
 $pdf->Cell(77 , 10 , '',0,0); // indention
-$pdf->Cell(130 , 12 , 'Barangay '.ucfirst($brgy) , 0,1);
+$pdf->Cell(130 , 12 , 'Barangay '.ucfirst($barangay) , 0,1);
 
 $pdf->SetFont('Arial','B',22);
 $pdf->Cell(67 , 10 , '',0,0); // indention
@@ -80,18 +55,18 @@ $pdf->Cell(45 , 8 , 'proposed construction of '.$numberstorey.' located at '.$ad
 
 $pdf->SetFont('Arial','',12);
 $pdf->Cell(55 , 8 , 'Name',0,0);
-$pdf->Cell(45 , 8 , 'upon request of Mr. / Mrs.'.ucfirst($fname).' '.$mname.' '.$lname,0,1);
+$pdf->Cell(45 , 8 , 'upon request of Mr. / Mrs.'.ucfirst($firstname).' '.$middlename.' '.$lastname,0,1);
 
 $pdf->Cell(45 , 8 , 'Name',0,1);
 $pdf->Cell(60 , 8 , 'Name',0,0);
 $pdf->Cell(45 , 8 , 'This certificate is being issued upon the request of the above',0,1);
 $pdf->Cell(55 , 8 , 'Name',0,0);
-$pdf->Cell(45 , 8 , 'named for securing '.$wat,0,1);
+$pdf->Cell(45 , 8 , 'named for securing '.$purpose,0,1);
 
 $pdf->Cell(45 , 8 , 'Name',0,1);
 
 $pdf->Cell(60 , 8 , 'Name',0,0);
-$pdf->Cell(45 , 8 , 'Issued this '.date('d/m/y').' '.'at Barangay ' .ucfirst($brgy) .', City of Malabon.' ,0,1);
+$pdf->Cell(45 , 8 , 'Issued this '.date('d/m/y').' '.'at Barangay ' .ucfirst($barangay) .', City of Malabon.' ,0,1);
 
 $pdf->Cell(55 , 8 , 'Name',0,1);
 
@@ -116,4 +91,6 @@ $pdf->Cell(130 , 2 , '',0,0); // indention
 $pdf->Cell(45 , 2 ,'Punong Barangay',0,0);//end of line
 
 $pdf->Output();
+$sql = "UPDATE `permit_table` SET `print` = 'printed' WHERE `permit_table`.`id` = $id";
+mysqli_query($con,$sql);
  ?>

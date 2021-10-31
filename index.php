@@ -6,7 +6,7 @@ if(isset($_SESSION['votersid'])){
 } 
 if(isset($_POST['login'])){
  $votersname = $_POST['voters'];
- $barangay  = $_POST['Barangay'];
+ $barangay  = strtolower($_POST['Barangay']);
  	$sql = "select * from votersid_table where voters_id = '$votersname' and brgy = '$barangay'";
  	$result = mysqli_query($con,$sql);
  		$row = mysqli_num_rows($result);

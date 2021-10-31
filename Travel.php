@@ -1,12 +1,23 @@
 <?php
 session_start();
-
-if (isset($_POST['reg'])){
-
-  header('Location: confirm.html');
-
+require_once('database-config.php');
+if(isset($_GET['purpose'])){
+  $purpose = $_GET['purpose'];
 }
-
+if (isset($_POST['reg'])){
+  $table = $_SESSION['table'];
+  $barangay = $_SESSION['barangay'];
+  $firstname = $_POST['fname'];
+  $middlename = $_POST['mname'];
+  $lastname = $_POST['lname'];
+  $age = $_POST['age'];
+  $date = $_POST['date'];
+  $address = $_POST['address'];
+  $location = $_POST['location'];
+  $sql = "INSERT INTO `$table` (`id`, `first_name`, `middle_name`, `last_name`, `date`, `age`, `address`, `location`, `purpose`, `barangay`, `print`) VALUES (NULL, '$firstname', '$middlename', '$lastname', '$date', '$age', '$address', '$location', '$purpose', '$barangay', 'pending')";
+  mysqli_query($con,$sql);
+  header('Location: confirm.html');
+}
 ?>
 <html>
 <head>
@@ -71,7 +82,7 @@ body{
 
 <form action="" method="POST">
   <label for="date">Date Today:</label>
-  <input type="date" id="date" name="date" required><br><br>
+  <input type="date" id="date" name="date" value="<?php echo date('Y-m-d'); ?>" required><br><br>
 
     <label for="fname1">First Name:</label>
     <input type="text" id="fname" name="fname" placeholder="Your First name.." required>
@@ -95,38 +106,6 @@ body{
       <center><input type="submit" name ="reg" value="Submit" style="width:50%; background-color: #00cc99;"></center>
 </b>
 </form>
-<?php 
-$votersid = $_SESSION['votersid'];
-$table= $_SESSION['table'];
-$barangay= $_SESSION['barangay'];
-
-  if (isset($_POST['reg'])){
-   // echo "1";
-
-    
-    $fname=$_POST['fname'];
-    $mname=$_POST['mname'];
-    $lname=$_POST['lname'];
-    $address=$_POST['address'];
-    $age=$_POST['age'];
-    $location=$_POST['location'];
-    $date=$_POST['date'];
-    require_once('database-config.php');
-   // echo "a";
-    $insert="INSERT INTO `$table` (first_name,middle_name,last_name,address,age,location,date) values('$fname','$mname','$lname','$address','$age','$location','$date')";
-   // echo $insert;
-   $query_run = mysqli_query($con,$insert);
-   echo $query_run;
-    if($query_run) {
-             //echo "Saved";
-//echo "Aaaaaaaaaaaaaa";
-    }
-    else if ($query_run)  {
-    //  echo "Bbbbbbbbbbbbbb";
-    } 
-  }
-
- ?>
 </div>
 <script>
    function isNumber(e) {

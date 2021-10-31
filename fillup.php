@@ -1,6 +1,33 @@
 <?php
 session_start();
+require_once('database-config.php');
+if(isset($_GET['purpose'])){
+  $purpose = $_GET['purpose'];
+}
 if (isset($_POST['reg'])){
+  $table = $_SESSION['table'];
+  $barangay = $_SESSION['barangay'];
+  $firstname = $_POST['fname'];
+  $middlename = $_POST['mname'];
+  $lastname = $_POST['lastname'];
+  $age = $_POST['age'];
+  $date = $_POST['date'];
+  $gender = $_POST['gender'];
+  $address = $_POST['address'];
+  $birthday = $_POST['birthday'];
+  $birthplace = $_POST['birthplace'];
+  $contactnumber = $_POST['contactNo'];
+  $status = $_POST['status'];
+  $spouse = $_POST['spouse'];
+  $spouse_age = $_POST['age1'];
+  $year_stay = $_POST['whendid'];
+  $voter = $_POST['voters'];
+  $voterNo = $_POST['votersNo'];
+  $house = $_POST['house'];
+  $occupation = $_POST['occupation'];
+  $companyname = $_POST['nameCompany'];
+  $sql = "INSERT INTO `$table` (`id`, `first_name`, `middle_name`, `last_name`, `date`, `age`, `gender`, `address`, `birthday`, `birthplace`, `contact_number`, `status`, `spouse`, `spouse_age`, `year_stay`, `voter`, `voter_number`, `house`, `occupation`, `companyname`, `purpose`, `barangay`,`print`) VALUES (NULL, '$firstname', '$middlename', '$lastname', '$date', '$age', '$gender', '$address', '$birthday', '$birthplace', '$contactnumber', '$status', '$spouse', '$spouse_age', '$year_stay', '$voter', '$voterNo', '$house', '$occupation', '$companyname', '$purpose', '$barangay', 'pending')";
+  mysqli_query($con,$sql);
   header('Location: confirm.html');
 }
 
@@ -72,10 +99,10 @@ body{
 
 <b>
 
-<form action="fillup.php" method="post">
+<form action="" method="post">
 
     <label for="date">Date Today:</label>
-    <input type="date" id="date" name="date" placeholder="date('d/m/y')" required><br><br>
+    <input type="date" id="date" name="date" placeholder="date('d/m/y')" value="<?php echo date('Y-m-d'); ?>" required><br><br>
 
     <label for="fname">First Name:</label>
     <input type="text" id="fname" name="fname" placeholder="Your First name.." required>
@@ -158,52 +185,6 @@ body{
   <center><input type="submit" value="Submit" name="reg" style="width: 50%; background-color: #00cc99;"></center>
 </B>
 </form>
-
-
-
-<?php 
-$votersid = $_SESSION['votersid'];
-$table = $_SESSION['table'];
-$barangayname = $_SESSION['barangay'];
-
-  if (isset($_POST['reg'])){
-
-    $fname=$_POST['fname'];
-    $mname=$_POST['mname'];
-    $lastname=$_POST['lastname'];
-    $age=$_POST['age'];
-    $date=$_POST['date'];
-    $gender=$_POST['gender'];
-    $address=$_POST['address'];
-    $birthday=$_POST['birthday'];
-    $birthplace=$_POST['birthplace'];
-    $contactNo=$_POST['contactNo'];
-    $status=$_POST['status'];
-    $spouse=$_POST['spouse'];
-    $age1=$_POST['age1'];
-    $whendid=$_POST['whendid'];
-    $voters=$_POST['voters'];
-    $votersNo=$_POST['votersNo'];
-    $house=$_POST['house'];
-    $occupation=$_POST['occupation'];
-    $nameCompany=$_POST['nameCompany'];
-    require_once('database-config.php');
-    
-    $insert="INSERT INTO `$table` (first_name,middle_name,last_name,date,age,gender,address,birthday,birthplace,contact_number,status,spouse,spouse_age,year_stay,voter,voters_number,house,occupation,name_company) values ('$fname','$mname','$lastname','$age','$date','$gender','$address','$birthday','$birthplace','$contactNo','$status','$spouse','$age1','$whendid','$voters','$votersNo','$house','$occupation','$nameCompany')";
-   $query_run = mysqli_query($con,$insert);
-
-    if($query_run) {
-             //echo "Saved";
-    //  echo "Aaaaaaaaaaaaaa";
-    }
-    else if ($query_run)  {
-    //  echo "Bbbbbbbbbbbbbb";
-    } 
-  }
-
- ?>
-
-
 </div>
 <script>
   function isNumber(e) {

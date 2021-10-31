@@ -3,33 +3,27 @@ session_start();
 if (isset($_POST['submit'])){
 
     if(isset($_POST['Clearance'])){
-    $table = $_POST['Clearance'];
-    $_SESSION['table'] = $table;
-
-    // echo "ab";
-        header('Location: fillup.php');
+      $table = "clearance_table";
+      $_SESSION['table'] = $table;
+      header('Location: fillup.php?purpose='. $_POST['Clearance']);
     }
+
     if(isset($_POST['certification'])){
-    $table = $_POST['certification'];
-      
-    $_SESSION['table'] = $table;
-   //   echo "ac";
-        header('Location: fillup.php');
+      $table = "certification_table";
+      $_SESSION['table'] = $table;
+      header('Location: fillup.php?purpose='. $_POST['certification']);
     }
-    if(isset($_POST['Permit'])){
-    $table = $_POST['Permit'];
-    if($table != "travelpermit_table"){
-     // echo "travel";
 
-        header('Location: fillup1.php');
+    if(isset($_POST['Permit'])){
+    $permit = $_POST['Permit'];
+    if($permit != "Travel Permit"){
+      $_SESSION['table'] = "permit_table";
+        header('Location: fillup1.php?purpose='. $_POST['Permit']);
     }
     else{
-      header('Location: Travel.php');
-    }
-      
-    $_SESSION['table'] = $table;
-    //  echo "ad";
-
+        $_SESSION['table'] = "travelpermit_table";
+        header('Location: Travel.php?purpose='. $_POST['Permit']);
+      }
     }
 }
 
@@ -114,48 +108,48 @@ select {
   <div class="div2"><label for="clearance">Choose your Clearance need</label></div>
   <select id="clear" name="Clearance" onchange="bruh();">
   <option values="" selected hidden>Choose Clearance</option>
-  <option value="clearance_table">Bank Transaction</option>
-  <option value="clearance_table">Loan Purpose</option>
-  <option value="clearance_table">Motor Loan Pupose</option>
-  <option value="clearance_table">Pedicab/Tricycle Registration</option>
-  <option value="clearance_table">TIN ID Requirements</option>
-  <option value="clearance_table">Internet Application</option>
-  <option value="clearance_table">Maynilad Application</option>
-  <option value="clearance_table">Meralco Application</option>
-  <option value="clearance_table">Postal ID Application</option>
-  <option value="clearance_table">Local Employment</option>
-  <option value="clearance_table">Residency</option>
-  <option value="clearance_table">Travel Abroad</option>
+  <option value="Bank Transaction">Bank Transaction</option>
+  <option value="Loan Purpose">Loan Purpose</option>
+  <option value="Motor Loan Pupose">Motor Loan Pupose</option>
+  <option value="Pedicab/Tricycle Registration">Pedicab/Tricycle Registration</option>
+  <option value="TIN ID Requirements">TIN ID Requirements</option>
+  <option value="Internet Application">Internet Application</option>
+  <option value="Maynilad Application">Maynilad Application</option>
+  <option value="Meralco Application">Meralco Application</option>
+  <option value="Postal ID Application">Postal ID Application</option>
+  <option value="Local Employment">Local Employment</option>
+  <option value="Residency">Residency</option>
+  <option value="Travel Abroad">Travel Abroad</option>
   </select>
  <div class="div2"><label for="certification">Choose your Certification need</label></div>
   <select id="cert" name="certification" onchange="luh();">
   <option values="" selected hidden>Choose Certifications</option>
-  <option value="certification_table">Death Claim</option>
-  <option value="certification_table">Legal Purpose</option>
-  <option value="certification_table">Burial Assistance</option>
-  <option value="certification_table">Financial Assistance</option>
-  <option value="certification_table">Medical Assistance</option>
-  <option value="certification_table">Public Atty. Office Assistance</option>
-  <option value="certification_table">BIR Requirements</option>
-  <option value="certification_table">Philhealth Requirements</option>
-  <option value="certification_table">PWD Requirements</option>
-  <option value="certification_table">School Requirements</option>
-  <option value="certification_table">Senior Citizen Requirements</option>
-  <option value="certification_table">Solo Parent Requirements</option>
-  <option value="certification_table">SSS Requirements</option>
+  <option value="Death Claim">Death Claim</option>
+  <option value="Legal Purpose">Legal Purpose</option>
+  <option value="Burial Assistance">Burial Assistance</option>
+  <option value="Financial Assistance">Financial Assistance</option>
+  <option value="Medical Assistance">Medical Assistance</option>
+  <option value="Public Atty. Office Assistance">Public Atty. Office Assistance</option>
+  <option value="BIR Requirements">BIR Requirements</option>
+  <option value="Philhealth Requirements">Philhealth Requirements</option>
+  <option value="PWD Requirements">PWD Requirements</option>
+  <option value="School Requirements">School Requirements</option>
+  <option value="Senior Citizen Requirements">Senior Citizen Requirements</option>
+  <option value="Solo Parent Requirements">Solo Parent Requirements</option>
+  <option value="SSS Requirements">SSS Requirements</option>
   </select>
  <div class="div2"><label for="barangay">Choose your Permit need</label></div>
   <select id="permit" name="Permit" onchange="nudaw();">
   <option values="" selected hidden>Choose Permits</option>
-  <option value="permit_table">Building Permit</option>
-  <option value="permit_table">Business Permit</option>
-  <option value="permit_table">Demolition Permit</option>
-  <option value="permit_table">Excavation Permit</option>
-  <option value="permit_table">Fencing Permit</option>
-  <option value="permit_table">Renovation Permit</option>
-  <option value="permit_table">Sunken Permit</option>
-  <option value="permit_table">Wiring Permit</option>
-  <option value="travelpermit_table">Travel Permit</option>
+  <option value="Building Permit">Building Permit</option>
+  <option value="Business Permit">Business Permit</option>
+  <option value="Demolition Permit">Demolition Permit</option>
+  <option value="Excavation Permit">Excavation Permit</option>
+  <option value="Fencing Permit">Fencing Permit</option>
+  <option value="Renovation Permit">Renovation Permit</option>
+  <option value="Sunken Permit">Sunken Permit</option>
+  <option value="Wiring Permit">Wiring Permit</option>
+  <option value="Travel Permit">Travel Permit</option>
   </select>
 <input type="submit" value="Clear Form" onclick="reset();" style="width: 40%; background-color: #00cc99;">
 <input type="submit" disabled id = "submit"name = "submit"value="Submit" style="width: 40%; background-color: #00cc99;">

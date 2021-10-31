@@ -1,29 +1,22 @@
 <?php 
 require('pdf/fpdf184/fpdf.php');
 session_start();
-$print_id4 = $_SESSION['print_id4'];
-$table = $_SESSION['table'];
-$wat;
-if($table == "businessptb"){
-    $wat = "Business Permit";
-    }
-$brgy = $_SESSION['brgy'];
 require_once('database-config.php');
-$brgy = $_SESSION['brgy'];
-
-$result=mysqli_query($con,"select fname,mname,lname,address,nbusiness,location,ticketno from `$table` WHERE `votersid` = '$print_id4'");
-$number_of_products = mysqli_num_rows($result);
-$column_code = "";
+$id = $_GET['id'];
+$link = $_GET['link'];
+$sql = "select * from permit_table where id = '$id'";
+$result = mysqli_query($con,$sql);
 while($row = mysqli_fetch_array($result)){
-    
-    $fname = $row["fname"];
-    $mname = $row['mname'];
-    $lname = $row['lname'];
+    $firstname = $row['first_name'];
+    $middlename = $row['middle_name'];
+    $lastname = $row['last_name'];
+    $date = $row['date'];
     $address = $row['address'];
-    $nbusiness = $row['nbusiness'];
+    $barangay = $row['barangay'];
+    $purpose = $row['purpose'];
+    $nbusiness = $row['business_name'];
     $location = $row['location'];
-    $ticketno = $row['ticketno'];
-    
+    $ticketno = $id;
 }
 
 $pdf = new FPDF ('p','mm','A4');
@@ -39,7 +32,7 @@ $pdf->Cell(77 , 10 , '',0,0); // indention
 $pdf->Cell(130 , 1, 'CITY OF MALABON' , 0,1);
 
 $pdf->Cell(77 , 10 , '',0,0); // indention
-$pdf->Cell(130 , 12 , 'Barangay '.ucfirst($brgy) , 0,1);
+$pdf->Cell(130 , 12 , 'Barangay '.ucfirst($barangay) , 0,1);
 
 $pdf->SetFont('Arial','B',22);
 $pdf->Cell(45 , 10 , '',0,0); // indention
@@ -53,7 +46,7 @@ $pdf->Cell(45 , 8 , 'PUNONG BARANGAY:',0,1);
 
 $pdf->SetFont('Arial','',12);
 $pdf->Cell(72 , 8 , 'Name',0,0);
-$pdf->Cell(100 , 8 , ucfirst($fname).' '.ucfirst($mname).' '.ucfirst($lname),1,1);
+$pdf->Cell(100 , 8 , ucfirst($firstname).' '.ucfirst($middlename).' '.ucfirst($lastname),1,1);
 
 $pdf->SetFont('Arial','B',12);
 $pdf->Cell(113 , 8 , 'KAGAWAD:',0,0);
@@ -85,13 +78,13 @@ $pdf->Cell(45 , 8 , 'Issued upon the request of the above named person to suppor
 $pdf->SetFont('Arial','B',12);
 $pdf->Cell(50 , 8 , 'SECRETARY:',0,0);
 $pdf->SetFont('Arial','',12);
-$pdf->Cell(45 , 8 , 'his/her '.$wat,0,1);
+$pdf->Cell(45 , 8 , 'his/her '.$purpose,0,1);
 
 
 $pdf->SetFont('Arial','',12);
 $pdf->Cell(55 , 8 , 'Name',0,0);
 $pdf->SetFont('Arial','',12);
-$pdf->Cell(45 , 8 , 'Issued this '.date('d/m/y').' '.'at Barangay ' .ucfirst($brgy) .', City of Malabon.' ,0,1);
+$pdf->Cell(45 , 8 , 'Issued this '.date('d/m/y').' '.'at Barangay ' .ucfirst($barangay) .', City of Malabon.' ,0,1);
 
 $pdf->SetFont('Arial','B',12);
 $pdf->Cell(45 , 8 , 'TREASURER:',0,1);
@@ -115,4 +108,6 @@ $pdf->SetFont('Arial','B',12);
 $pdf->Cell(45 , 8 , 'Punong Barangay' ,0,1);
 
 $pdf->Output();
+$sql = "UPDATE `permit_table` SET `print` = 'printed' WHERE `permit_table`.`id` = $id";
+mysqli_query($con,$sql);
  ?>

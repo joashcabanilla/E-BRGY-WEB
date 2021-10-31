@@ -3,8 +3,15 @@ require_once('../database-config.php');
 session_start();
 if(isset($_SESSION['barangay']))
 {
-	header("location:admin.php");
+	if($_SESSION['barangay'] == "malabon")
+	{
+		header("location:superadmin.php");
+	}
+	else{
+		header("location:admin.php?link=clearance");
+	}
 }
+
 if(isset($_POST['login']))
 {
 	$username = $_POST['uname'];
@@ -15,7 +22,13 @@ if(isset($_POST['login']))
 	$sqldata = mysqli_fetch_assoc($result);
 	if($row == 1){
 		$_SESSION['barangay'] = $sqldata['barangay'];
-		header("location:admin.php");
+		if($_SESSION['barangay'] == "malabon")
+		{
+			header("location:superadmin.php");
+		}
+		else{
+			header("location:admin.php?link=clearance");
+		}
 	}
 	else{
 		echo "<script>alert('Failed to login')</script>";
@@ -34,7 +47,17 @@ if(isset($_POST['login']))
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 	
 	<link rel="stylesheet" href="css/style1.css">
-
+	<style>
+		.login-voter{
+			display:flex;
+			justify-content: center;
+			align-items: center;
+			margin-top: 1rem;
+		}
+		.login-voter a{
+			font-size: 1.1rem;
+		}
+	</style>
 	</head>
 	<body>
 	<section class="ftco-section">
@@ -65,6 +88,10 @@ if(isset($_POST['login']))
 		            	<button type="submit"name="login" class="btn btn-primary rounded submit">Login</button>
 	            	</div>
 	            </div>
+				<div class="login-voter">
+					<a href="../index.php">Sign in Voter Account</a>
+				</div>
+
 	          </form>
 	        </div>	 
 	       </div>

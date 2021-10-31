@@ -1,19 +1,35 @@
 <?php
 session_start();
+require_once('database-config.php');
+if(isset($_GET['purpose'])){
+  $purpose = $_GET['purpose'];
+}
 if (isset($_POST['reg'])){
-
+  $table = $_SESSION['table'];
+  $barangay = $_SESSION['barangay'];
+  $firstname = $_POST['fname'];
+  $middlename = $_POST['mname'];
+  $lastname = $_POST['lname'];
+  $date = $_POST['date'];
+  $address = $_POST['address'];
+  $contactNo = $_POST['contactn'];
+  $amount = $_POST['amount'];
+  $storey_number = $_POST['numberstorey'];
+  $business_name = $_POST['nbusiness'];
+  $amount1 = $_POST['amount1'];
+  $squareMeter = $_POST['howmany'];
+  $location = $_POST['location'];
+  $sql = "INSERT INTO `$table` (`id`, `first_name`, `middle_name`, `last_name`, `date`, `address`, `contact_number`, `amount`, `storey_number`, `business_name`, `amount2`, `square_meters`, `location`, `purpose`, `barangay`, `print`) VALUES (NULL, ' $firstname', '$middlename', '$lastname', '$date', '$address', '$contactNo', '$amount', '$storey_number', '$business_name', '$amount1', '$squareMeter', '$location', '$purpose', '$barangay', 'pending')";
+  mysqli_query($con,$sql);
   header('Location: confirm.html');
 
 }
-
-
 ?>
 <html>
 <head>
 <title>Fill up Form</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
 <link href="https://fonts.googleapis.com/css?family=Raleway:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
-
 </head>
 <style>
 input[type=text], select {
@@ -51,7 +67,7 @@ body{
   padding: 50px;
   margin-left: 10%;
   margin-right: 10%;
-
+}
 </style>
 <body class="body">
 
@@ -72,7 +88,7 @@ body{
 
 <form action="" method="POST">
   <label for="date">Date Today:</label>
-  <input type="date" id="date" name="date" required><br><br>
+  <input type="date" id="date" name="date" value="<?php echo date('Y-m-d'); ?>" required><br><br>
 
     <label for="fname1">First Name:</label>
     <input  type="text" id="fname" name="fname" placeholder="Your First name.." required>
@@ -116,61 +132,24 @@ body{
       <center><input type="submit" name ="reg" value="Submit" style="width:50%; background-color: #00cc99;"></center>
 </b>
 </form>
-<?php 
-$votersid =$_SESSION['votersid'];
-$table= $_SESSION['table'];
-$barangay= $_SESSION['barangay'];
-
-
-  if (isset($_POST['reg'])){
-    //echo "1";
-
-    
-    $fname=$_POST['fname'];
-    $mname=$_POST['mname'];
-    $lname=$_POST['lname'];
-    $date=$_POST['date'];
-    $address=$_POST['address']; 
-    $contactn=$_POST['contactn'];
-    $amount=$_POST['amount'];
-    $numberstorey=$_POST['numberstorey'];
-    $nbusiness=$_POST['nbusiness'];
-    $amount1=$_POST['amount1'];
-    $howmany=$_POST['howmany'];
-    $location=$_POST['location'];
-    require_once('database-config.php');
-   // echo "a";
-    $insert="INSERT INTO `$table` (first_name,middle_name,last_name,date,address,contact_number,amount,number_storey,name_building_business,sunken_amount,square_meters,location) values ('$fname','$mname','$lname','$date','$address','$contactn','$amount','$numberstorey','$nbusiness','$amount1',' $howmany','$location')";
-   $query_run = mysqli_query($con,$insert);
-   echo $query_run;
-    if($query_run) {
-             //echo "Saved";
-     // echo "Aaaaaaaaaaaaaa";
-    }
-    else if ($query_run)  {
-     // echo "Bbbbbbbbbbbbbb";
-    } 
-  }
-
- ?>
-  </div>
+</div>
 <script>
    function isNumber(e) {
                        e = e || window.event;
                        var charCode = e.which ? e.which : e.keyCode;
                        return /\d/.test(String.fromCharCode(charCode));
 }
-  document.getElementById("fname1").onkeypress=function(e){ 
+  document.getElementById("fname").onkeypress=function(e){ 
 var e=window.event || e 
 var keyunicode=e.charCode || e.keyCode 
 return (keyunicode>=65 && keyunicode<=122 || keyunicode==8 || keyunicode==32)? true : false 
 } 
-document.getElementById("mname1").onkeypress=function(e){ 
+document.getElementById("mname").onkeypress=function(e){ 
 var e=window.event || e 
 var keyunicode=e.charCode || e.keyCode 
 return (keyunicode>=65 && keyunicode<=122 || keyunicode==8 || keyunicode==32)? true : false 
 } 
-document.getElementById("lname1").onkeypress=function(e){ 
+document.getElementById("lname").onkeypress=function(e){ 
 var e=window.event || e 
 var keyunicode=e.charCode || e.keyCode 
 return (keyunicode>=65 && keyunicode<=122 || keyunicode==8 || keyunicode==32)? true : false 
@@ -182,4 +161,4 @@ return (keyunicode>=65 && keyunicode<=122 || keyunicode==8 || keyunicode==32)? t
 } 
 </script>
 </body>
-  </html>
+</html>
