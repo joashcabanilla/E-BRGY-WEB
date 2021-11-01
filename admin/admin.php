@@ -1,11 +1,49 @@
 <?php
 session_start();
+require_once('../database-config.php');
 if(!isset($_SESSION['barangay']))
 {
     header("location:loginadmin.php");
 }
-?>
+if(isset($_GET['process']) and $_GET['process'] == "addvoterid" and isset($_COOKIE['votersid'])){
+    $votersid = $_COOKIE['votersid'];
+    $barangay = $_GET['barangay'];
+    $link = $_GET['link'];
+    $sql = "select * from votersid_table where brgy = '$barangay' and voters_id = '$votersid'";
+    $result = mysqli_query($con,$sql);
+    $row = mysqli_num_rows($result);
+    if($row == 1){
+        $_COOKIE['check_voter'] = "already exist";
+        setcookie("votersid", "", time() - 3600);
+    }
+    else{
+        $sql = "INSERT INTO `votersid_table` (`id`, `voters_id`, `brgy`) VALUES (NULL, '$votersid', '$barangay')";
+        mysqli_query($con,$sql);
+        $_COOKIE['check_voter'] = "saved";
+        setcookie("votersid", "", time() - 3600);
+    }
+}
 
+if(isset($_GET['process']) and $_GET['process'] == "updatevoterid" and isset($_COOKIE['votersid'])){
+    $votersid = $_COOKIE['votersid'];
+    $barangay = $_GET['barangay'];
+    $link = $_GET['link'];
+    $table_id = $_COOKIE['votersid_table'];
+    $sql = "select * from votersid_table where brgy = '$barangay' and voters_id = '$votersid'";
+    $result = mysqli_query($con,$sql);
+    $row = mysqli_num_rows($result);
+    if($row == 1){
+        $_COOKIE['check_voter'] = "already exist";
+        setcookie("votersid", "", time() - 3600);
+    }
+    else{
+        $sql = "UPDATE `votersid_table` SET `voters_id` = '$votersid' WHERE `votersid_table`.`id` = $table_id";
+        mysqli_query($con,$sql);
+        $_COOKIE['check_voter'] = "saved";
+        setcookie("votersid", "", time() - 3600);
+    } 
+}
+?>   
 <!doctype html>
 <html lang="en">
   <head>
@@ -17,6 +55,7 @@ if(!isset($_SESSION['barangay']))
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <?php
         $link = $_GET['link'];
         echo "<style>.$link{background-color:#1c5c7c}</style>";
@@ -39,6 +78,21 @@ if(!isset($_SESSION['barangay']))
                 </div>
             </div>
             <div class="container-table">
+                    <?php
+                        $link = $_GET['link'];
+                        $barangay = $_SESSION['barangay'];
+                        if($link == "account")
+                        {
+                            echo "<div class='addvoter'>
+                            <form action='admin.php' method='GET' id='formvoter'>
+                            <input type='hidden' name='link' value='$link'>
+                            <input type='hidden' name='barangay' value='$barangay'>
+                            <input type='hidden' name='process' value='addvoterid'>
+                            </form>
+                            <button class='addvoterbtn'>ADD VOTERS ID</button>    
+                            </div>";
+                        }
+                    ?>
                     <div class="content-table">
                     <?php
                         $link = $_GET['link'];
@@ -76,7 +130,7 @@ if(!isset($_SESSION['barangay']))
                                         echo "PRINTED</td>";
                                     }
                                     else{
-                                        echo "<a href='' id=update-$id>UPDATE</a>
+                                        echo "<a href='updateclearance.php?link=$link&id=$id' id=update-$id>UPDATE</a>
                                         <a target='_blank' href='../brgy_clearance.php?link=$link&id=$id' id='print-$id'>PRINT</a>
                                         </td>
                                         </tr>";
@@ -116,7 +170,7 @@ if(!isset($_SESSION['barangay']))
                                         echo "PRINTED</td>";
                                     }
                                     else{
-                                        echo "<a href='' id=update-$id>UPDATE</a>
+                                        echo "<a href='updatecertification.php?link=$link&id=$id' id=update-$id>UPDATE</a>
                                         <a target='_blank' href='../brgy_cert.php?link=$link&id=$id' id='print-$id'>PRINT</a>
                                         </td>
                                         </tr>";
@@ -156,7 +210,7 @@ if(!isset($_SESSION['barangay']))
                                         echo "PRINTED</td>";
                                     }
                                     else{
-                                        echo "<a href='' id=update-$id>UPDATE</a>";
+                                        echo "<a href='updatepermit.php?link=$link&id=$id' id=update-$id>UPDATE</a>";
                                         if($purpose == "Business Permit")
                                         {
                                             echo" <a target='_blank' href='../Businesspermit.php?link=$link&id=$id' id='print-$id'>PRINT</a>
@@ -204,7 +258,7 @@ if(!isset($_SESSION['barangay']))
                                         echo "PRINTED</td>";
                                     }
                                     else{
-                                        echo "<a href='' id=update-$id>UPDATE</a>
+                                        echo "<a href='updatetravelpermit.php?link=$link&id=$id' id=update-$id>UPDATE</a>
                                             <a target='_blank' href='../Travelpermit.php?link=$link&id=$id' id='print-$id'>PRINT</a>
                                             </td>
                                             </tr>";
@@ -213,7 +267,7 @@ if(!isset($_SESSION['barangay']))
                             echo"</table";
                         }
                         elseif($link == "account"){
-                            $sql = "select * from votersid_table where brgy = '$barangay' ORDER BY id";
+                            $sql = "select * from votersid_table where brgy = '$barangay' ORDER BY voters_id asc";
                             $result = mysqli_query($con,$sql);
                             echo "<table class='account-table'>
                                 <tr>
@@ -225,17 +279,55 @@ if(!isset($_SESSION['barangay']))
                                     $id = $row['id'];
                                     $voter_id = $row['voters_id'];
                                     echo "<tr class='travelpermit-row-$id'>
-                                        <td>$voter_id</td>
+                                        <td class='voterid-$id'>$voter_id</td>
                                         <td id='td_button' class='printStatus$id'>";
-                                        echo "<a href='' id=update-$id>UPDATE</a></td></tr>";
+                                        echo "<button id=update-$id>UPDATE</button></td></tr>";
                                 }
                             echo"</table";
                         }
                     ?>
-                        </div>
+                    </div>
                     </div>
                 </div>
         </div>
+        <?php
+           echo"<form action='admin.php' method='GET' id='update-formvoter'>
+            <input type='hidden' name='link' value='$link'>
+            <input type='hidden' name='barangay' value='$barangay'>
+            <input type='hidden' name='process' value='updatevoterid'>
+            </form>";
+            if(isset($_COOKIE['check_voter']) and $_COOKIE['check_voter'] == "saved")
+            {
+                echo "<script>swal('', 'VOTERS ID SUCCESSFULLY SAVED', 'success')</script>";
+                setcookie("check_voter", "", time() - 3600);
+            }
+            elseif(isset($_COOKIE['check_voter']) and $_COOKIE['check_voter'] == "already exist")
+            {
+                echo "<script>swal('', 'VOTERS ID ALREADY EXIST', 'warning')</script>";
+                setcookie("check_voter", "", time() - 3600);
+            }
+
+            if(isset($_GET['link']) and isset($_GET['update']) and $_GET['update'] == "clearance" and isset($_COOKIE['brgy-request']))
+            {
+                echo "<script>swal('', 'BARANGAY CLEARANCE SUCCESSFULLY UPDATED', 'success')</script>";
+                setcookie("brgy-request", "", time() - 3600);
+            }
+            elseif(isset($_GET['link']) and isset($_GET['update']) and $_GET['update'] == "certification" and isset($_COOKIE['brgy-request']))
+            {
+                echo "<script>swal('', 'BARANGAY CERTIFICATION SUCCESSFULLY UPDATED', 'success')</script>";
+                setcookie("brgy-request", "", time() - 3600);
+            }
+            elseif(isset($_GET['link']) and isset($_GET['update']) and $_GET['update'] == "permit" and isset($_COOKIE['brgy-request']))
+            {
+                echo "<script>swal('', 'BARANGAY PERMIT SUCCESSFULLY UPDATED', 'success')</script>";
+                setcookie("brgy-request", "", time() - 3600);
+            }
+            elseif(isset($_GET['link']) and isset($_GET['update']) and $_GET['update'] == "travelpermit" and isset($_COOKIE['brgy-request']))
+            {
+                echo "<script>swal('', 'BARANGAY TRAVEL PERMIT SUCCESSFULLY UPDATED', 'success')</script>";
+                setcookie("brgy-request", "", time() - 3600);
+            }
+        ?>
         <script src="js/admin.js"></script>
 	</body>
 </html>
