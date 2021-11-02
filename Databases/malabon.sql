@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 31, 2021 at 03:45 PM
+-- Generation Time: Nov 01, 2021 at 09:24 PM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 8.0.12
 
@@ -60,7 +60,8 @@ INSERT INTO `admins` (`id`, `username`, `password`, `barangay`) VALUES
 (19, 'admin_tinajeros', 'admin1111', 'tinajeros'),
 (20, 'admin_tonsuya', 'admin1111', 'tonsuya'),
 (21, 'admin_tugatog', 'admin1111', 'tugatog'),
-(22, 'admin_LGU', 'admin1234', 'malabon');
+(22, 'admin_malabon', 'admin1234', 'malabon'),
+(30, 'admin', 'admin', 'malabon');
 
 -- --------------------------------------------------------
 
@@ -98,7 +99,8 @@ INSERT INTO `barangay` (`id`, `barangay_name`) VALUES
 (18, 'tanyong'),
 (19, 'tinajeros'),
 (20, 'tonsuya'),
-(21, 'tugatog');
+(21, 'tugatog'),
+(22, 'malabon');
 
 -- --------------------------------------------------------
 
@@ -137,7 +139,7 @@ CREATE TABLE `certification_table` (
 --
 
 INSERT INTO `certification_table` (`id`, `first_name`, `middle_name`, `last_name`, `date`, `age`, `gender`, `address`, `birthday`, `birthplace`, `contact_number`, `status`, `spouse`, `spouse_age`, `year_stay`, `voter`, `voter_number`, `house`, `occupation`, `companyname`, `purpose`, `barangay`, `print`) VALUES
-(2, 'gjh', 'sdasd', 'asdasdas', '2021-10-31', 22, 'Male', '2asdas', '2021-10-13', 'dasdas', 23123, 'Single', 'asdas', '22', 'asdassa', 'Yes', '2312asd', 'Owner', 'adassd', 'asdas ', 'Death Claim', 'baritan', 'printed');
+(2, 'aaaaa', 'sdasda', 'asdasdasa', '2021-10-31', 2, 'Female', '2asdasa', '2021-10-03', 'dasdasa', 1, 'Single', 'asdasa', '2', 'asdassaa', 'Yes', '2312asda', 'Owner', 'adassda', 'asdasa', 'Death Claim', 'baritan', 'pending');
 
 -- --------------------------------------------------------
 
@@ -176,8 +178,8 @@ CREATE TABLE `clearance_table` (
 --
 
 INSERT INTO `clearance_table` (`id`, `first_name`, `middle_name`, `last_name`, `date`, `age`, `gender`, `address`, `birthday`, `birthplace`, `contact_number`, `status`, `spouse`, `spouse_age`, `year_stay`, `voter`, `voter_number`, `house`, `occupation`, `companyname`, `purpose`, `barangay`, `print`) VALUES
-(5, 'asdsadasdsadasdsadas dsadasdasdsadsa', 'asdas', 'asdsa', '2021-10-31', 2, 'Male', 'asdas', '2021-10-21', 'asdas', 23123, 'Single', 'asdassadas', '22', 'asdsadas', 'Yes', 'asdaa2321', 'Owner', 'adasd', 'adssa', 'Bank Transaction', 'baritan', 'printed'),
-(6, 'qwewq', 'asdas', 'asdasd', '2021-10-31', 22, 'Male', 'asdas', '2021-10-07', 'asdasd', 213213, 'Single', 'asdas', '22', 'dasdas', 'Yes', 'asdasd222', 'Owner', 'asdsa', 'asdasdas', 'Motor Loan Pupose', 'baritan', 'pending'),
+(5, 'nba', 'middlename', 'lastname', '2021-10-12', 1, 'Female', 'address1', '2021-11-02', 'birthplacea', 1, 'Separated', 'spousea', '1', 'when did1', 'No', '1', 'Rental', 'occu', 'com', 'Bank Transaction', 'baritan', 'pending'),
+(6, 'aswe', 'aswe', 'asdasd', '2021-10-31', 22, 'Male', 'asdas', '2021-10-07', 'asdasd', 213213, 'Single', 'asdas', '22', 'dasdas', 'Yes', 'asdasd222', 'Owner', 'asdsa', 'asdasdas', 'Motor Loan Pupose', 'baritan', 'pending'),
 (7, 'qweasdas', 'asdasd', 'asdasdas', '2021-10-31', 22, 'Male', 'asdas', '2021-10-07', 'asdasd', 21312, 'Single', 'asdasda', '40', 'asdasd', 'Yes', '23213', 'Owner', 'asdas', 'dasdas', 'Pedicab/Tricycle Registration', 'acacia', 'pending');
 
 -- --------------------------------------------------------
@@ -210,8 +212,9 @@ CREATE TABLE `permit_table` (
 --
 
 INSERT INTO `permit_table` (`id`, `first_name`, `middle_name`, `last_name`, `date`, `address`, `contact_number`, `amount`, `storey_number`, `business_name`, `amount2`, `square_meters`, `location`, `purpose`, `barangay`, `print`) VALUES
-(3, ' dasdas', 'asdas', 'asdas', '2021-10-31', 'asdas', 23121, 2111, 1221, 'asdasasda', 1111, 'asdas', 'asdas', 'Excavation Permit', 'baritan', 'pending'),
-(4, ' asd', 'asd', 'asd', '2021-10-31', '2312312', 2312, 111, 11, 'asdsadsa', 1111, '11321', 'asdasdsa', 'Business Permit', 'baritan', 'pending');
+(3, 'a', 'k', 'o', '2021-10-31', 'a', 2, 2, 2, 'a', 2, '2', 'a', 'Excavation Permit', 'baritan', 'pending'),
+(4, 'asdasfirstname', 'middlename', 'lastname', '2021-10-31', 'address', 1, 2, 3, 'business_name', 4, 'squareMeter', 'location', 'Business Permit', 'baritan', 'pending'),
+(5, 'q', 'w', 'e', '2021-11-01', 'r', 5, 4, 2, 't', 1, '21', 'cac', 'Business Permit', 'baritan', 'pending');
 
 -- --------------------------------------------------------
 
@@ -289,7 +292,7 @@ CREATE TABLE `travelpermit_table` (
 --
 
 INSERT INTO `travelpermit_table` (`id`, `first_name`, `middle_name`, `last_name`, `date`, `age`, `address`, `location`, `purpose`, `barangay`, `print`) VALUES
-(3, 'asdasd', 'asdas', 'asdas', '2021-10-31', 22, 'asdas', 'asdasd', 'Travel Permit', 'baritan', 'pending'),
+(3, 'firstname', 'middlename', 'lastname', '2021-10-31', 1, 'address', 'location', 'Travel Permit', 'baritan', 'pending'),
 (4, 'asdasd', 'asdsa', 'asdsa', '2021-10-31', 22, 'adssa', 'asdas', 'Travel Permit', 'baritan', 'pending');
 
 -- --------------------------------------------------------
@@ -331,10 +334,17 @@ CREATE TABLE `votersid_table` (
 
 INSERT INTO `votersid_table` (`id`, `voters_id`, `brgy`) VALUES
 (1, 'sample11', 'acacia'),
-(2, '123', 'baritan'),
+(2, '123456', 'baritan'),
 (3, '432', 'acacia'),
 (4, '567', 'bayan-bayanan'),
-(5, '2310293', 'baritan');
+(5, '2310293', 'baritan'),
+(17, '2222', 'baritan'),
+(36, '4444', 'baritan'),
+(37, '12345', 'baritan'),
+(38, '332151443', 'baritan'),
+(39, '3333', 'baritan'),
+(40, '7777', 'baritan'),
+(41, '5555', 'baritan');
 
 --
 -- Indexes for dumped tables
@@ -396,13 +406,13 @@ ALTER TABLE `votersid_table`
 -- AUTO_INCREMENT for table `admins`
 --
 ALTER TABLE `admins`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `barangay`
 --
 ALTER TABLE `barangay`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `certification_table`
@@ -420,7 +430,7 @@ ALTER TABLE `clearance_table`
 -- AUTO_INCREMENT for table `permit_table`
 --
 ALTER TABLE `permit_table`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `purpose_table`
@@ -438,7 +448,7 @@ ALTER TABLE `travelpermit_table`
 -- AUTO_INCREMENT for table `votersid_table`
 --
 ALTER TABLE `votersid_table`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
