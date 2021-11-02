@@ -23,7 +23,25 @@ if(isset($_POST['login'])){
  	}
 
  		else{
- 			echo "<script>alert('Failed to login')</script>";
+			 if($barangay == "panghulo"){
+				$sql = "select * from panghulo where voters_id = '$votersname'";
+				$result = mysqli_query($con,$sql);
+				$row = mysqli_num_rows($result);
+				if($row == 1){
+				   $barangayname = $_POST['barangay'];
+				   $_SESSION['barangay'] = $barangay;
+				   $_SESSION['voters'] = $votersname;
+				   $_SESSION['votersid'] = $votersname;
+					header("Location:homepage.php");
+				}
+				else{
+					echo "<script>alert('Failed to login')</script>";
+				}
+			 }
+			 else{
+				echo "<script>alert('Failed to login')</script>";
+			 }
+
  		}
 
  	}
@@ -99,10 +117,10 @@ select {
         <option value="baritan">Baritan</option>
         <option value="bayan-bayanan">Bayan-bayanan</option>
         <option value="catmon">Catmon</option>
-        <option value="conception">Concepcion</option>
+        <option value="concepcion">Concepcion</option>
         <option value="dampalit">Dampalit</option>
         <option value="flores">Flores</option>
-        <option value="hulong-duhat">Hulong Duhat</option>
+        <option value="hulongduhat">Hulong Duhat</option>
         <option value="ibaba">Ibaba</option>
         <option value="longos">Longos</option>
         <option value="maysilo">Maysilo</option>
@@ -112,7 +130,7 @@ select {
         <option value="potrero">Potrero</option>
         <option value="sanagustin">San Agustin</option>
         <option value="santulan">Santulan</option>
-        <option value="tanyong">Tañong</option>
+        <option value="tanong">Tañong</option>
         <option value="tinajeros">Tinajeros</option>
         <option value="tonsuya">Tonsuya</option>
         <option value="tugatog">Tugatog</option>
@@ -160,3 +178,4 @@ select {
   
 </body>
 </html>
+

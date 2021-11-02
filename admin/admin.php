@@ -9,18 +9,35 @@ if(isset($_GET['process']) and $_GET['process'] == "addvoterid" and isset($_COOK
     $votersid = $_COOKIE['votersid'];
     $barangay = $_GET['barangay'];
     $link = $_GET['link'];
-    $sql = "select * from votersid_table where brgy = '$barangay' and voters_id = '$votersid'";
-    $result = mysqli_query($con,$sql);
-    $row = mysqli_num_rows($result);
-    if($row == 1){
-        $_COOKIE['check_voter'] = "already exist";
-        setcookie("votersid", "", time() - 3600);
+    if(isset($_SESSION['panghulo']) and $_SESSION['panghulo'] == 1){
+        $sql = "select * from panghulo where voters_id = '$votersid'";
+        $result = mysqli_query($con,$sql);
+        $row = mysqli_num_rows($result);
+        if($row == 1){
+            $_COOKIE['check_voter'] = "already exist";
+            setcookie("votersid", "", time() - 3600);
+        }
+        else{
+            $sql = "INSERT INTO `panghulo` (`id`, `voters_id`) VALUES (NULL, '$votersid')";
+            mysqli_query($con,$sql);
+            $_COOKIE['check_voter'] = "saved";
+            setcookie("votersid", "", time() - 3600);
+        }
     }
     else{
-        $sql = "INSERT INTO `votersid_table` (`id`, `voters_id`, `brgy`) VALUES (NULL, '$votersid', '$barangay')";
-        mysqli_query($con,$sql);
-        $_COOKIE['check_voter'] = "saved";
-        setcookie("votersid", "", time() - 3600);
+        $sql = "select * from votersid_table where brgy = '$barangay' and voters_id = '$votersid'";
+        $result = mysqli_query($con,$sql);
+        $row = mysqli_num_rows($result);
+        if($row == 1){
+            $_COOKIE['check_voter'] = "already exist";
+            setcookie("votersid", "", time() - 3600);
+        }
+        else{
+            $sql = "INSERT INTO `votersid_table` (`id`, `voters_id`, `brgy`) VALUES (NULL, '$votersid', '$barangay')";
+            mysqli_query($con,$sql);
+            $_COOKIE['check_voter'] = "saved";
+            setcookie("votersid", "", time() - 3600);
+        }
     }
 }
 
@@ -29,19 +46,36 @@ if(isset($_GET['process']) and $_GET['process'] == "updatevoterid" and isset($_C
     $barangay = $_GET['barangay'];
     $link = $_GET['link'];
     $table_id = $_COOKIE['votersid_table'];
-    $sql = "select * from votersid_table where brgy = '$barangay' and voters_id = '$votersid'";
-    $result = mysqli_query($con,$sql);
-    $row = mysqli_num_rows($result);
-    if($row == 1){
-        $_COOKIE['check_voter'] = "already exist";
-        setcookie("votersid", "", time() - 3600);
+    if(isset($_SESSION['panghulo']) and $_SESSION['panghulo'] == 1){
+        $sql = "select * from panghulo where voters_id = '$votersid'";
+        $result = mysqli_query($con,$sql);
+        $row = mysqli_num_rows($result);
+        if($row == 1){
+            $_COOKIE['check_voter'] = "already exist";
+            setcookie("votersid", "", time() - 3600);
+        }
+        else{
+            $sql = "UPDATE `panghulo` SET `voters_id` = '$votersid' WHERE `panghulo`.`id` = $table_id";
+            mysqli_query($con,$sql);
+            $_COOKIE['check_voter'] = "saved";
+            setcookie("votersid", "", time() - 3600);
+        }
     }
     else{
-        $sql = "UPDATE `votersid_table` SET `voters_id` = '$votersid' WHERE `votersid_table`.`id` = $table_id";
-        mysqli_query($con,$sql);
-        $_COOKIE['check_voter'] = "saved";
-        setcookie("votersid", "", time() - 3600);
-    } 
+        $sql = "select * from votersid_table where brgy = '$barangay' and voters_id = '$votersid'";
+        $result = mysqli_query($con,$sql);
+        $row = mysqli_num_rows($result);
+        if($row == 1){
+            $_COOKIE['check_voter'] = "already exist";
+            setcookie("votersid", "", time() - 3600);
+        }
+        else{
+            $sql = "UPDATE `votersid_table` SET `voters_id` = '$votersid' WHERE `votersid_table`.`id` = $table_id";
+            mysqli_query($con,$sql);
+            $_COOKIE['check_voter'] = "saved";
+            setcookie("votersid", "", time() - 3600);
+        } 
+    }
 }
 ?>   
 <!doctype html>
@@ -267,8 +301,15 @@ if(isset($_GET['process']) and $_GET['process'] == "updatevoterid" and isset($_C
                             echo"</table";
                         }
                         elseif($link == "account"){
-                            $sql = "select * from votersid_table where brgy = '$barangay' ORDER BY voters_id asc";
-                            $result = mysqli_query($con,$sql);
+                            
+                            if(isset($_SESSION['panghulo']) and $_SESSION['panghulo'] == 1){
+                                $sql = "select * from panghulo";
+                                $result = mysqli_query($con,$sql);
+                            }
+                            else{
+                                $sql = "select * from votersid_table where brgy = '$barangay' ORDER BY voters_id asc";
+                                $result = mysqli_query($con,$sql);
+                            }
                             echo "<table class='account-table'>
                                 <tr>
                                     <th>VOTERS ID</th>
@@ -299,33 +340,33 @@ if(isset($_GET['process']) and $_GET['process'] == "updatevoterid" and isset($_C
             if(isset($_COOKIE['check_voter']) and $_COOKIE['check_voter'] == "saved")
             {
                 echo "<script>swal('', 'VOTERS ID SUCCESSFULLY SAVED', 'success')</script>";
-                setcookie("check_voter", "", time() - 3600);
+                //setcookie("check_voter", "", time() - 3600);
             }
             elseif(isset($_COOKIE['check_voter']) and $_COOKIE['check_voter'] == "already exist")
             {
                 echo "<script>swal('', 'VOTERS ID ALREADY EXIST', 'warning')</script>";
-                setcookie("check_voter", "", time() - 3600);
+                //setcookie("check_voter", "", time() - 3600);
             }
 
             if(isset($_GET['link']) and isset($_GET['update']) and $_GET['update'] == "clearance" and isset($_COOKIE['brgy-request']))
             {
                 echo "<script>swal('', 'BARANGAY CLEARANCE SUCCESSFULLY UPDATED', 'success')</script>";
-                setcookie("brgy-request", "", time() - 3600);
+                //setcookie("brgy-request", "", time() - 3600);
             }
             elseif(isset($_GET['link']) and isset($_GET['update']) and $_GET['update'] == "certification" and isset($_COOKIE['brgy-request']))
             {
                 echo "<script>swal('', 'BARANGAY CERTIFICATION SUCCESSFULLY UPDATED', 'success')</script>";
-                setcookie("brgy-request", "", time() - 3600);
+                //setcookie("brgy-request", "", time() - 3600);
             }
             elseif(isset($_GET['link']) and isset($_GET['update']) and $_GET['update'] == "permit" and isset($_COOKIE['brgy-request']))
             {
                 echo "<script>swal('', 'BARANGAY PERMIT SUCCESSFULLY UPDATED', 'success')</script>";
-                setcookie("brgy-request", "", time() - 3600);
+                //setcookie("brgy-request", "", time() - 3600);
             }
             elseif(isset($_GET['link']) and isset($_GET['update']) and $_GET['update'] == "travelpermit" and isset($_COOKIE['brgy-request']))
             {
                 echo "<script>swal('', 'BARANGAY TRAVEL PERMIT SUCCESSFULLY UPDATED', 'success')</script>";
-                setcookie("brgy-request", "", time() - 3600);
+                //setcookie("brgy-request", "", time() - 3600);
             }
         ?>
         <script src="js/admin.js"></script>

@@ -27,6 +27,12 @@ if(isset($_POST['login']))
 			header("location:superadmin.php");
 		}
 		else{
+			if($sqldata['barangay'] == "panghulo"){
+				$_SESSION['panghulo'] = 1;
+			}
+			else{
+				$_SESSION['panghulo'] = 0;
+			}
 			header("location:admin.php?link=clearance");
 		}
 	}
